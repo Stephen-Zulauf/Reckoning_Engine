@@ -1,6 +1,7 @@
 #include "config.h"
 #include "include/Window.h"
 #include "include/Renderer.h"
+#include "include/Raycaster.h"
 
 /*flags */
 bool g_FLAG_EXIT = false;
@@ -9,6 +10,7 @@ int g_SUCCESS;
 /*SDL Window and renderer*/
 Window* g_SDL_Window = nullptr;
 Renderer* g_Renderer = nullptr;
+Raycaster* g_Raycaster = nullptr;
 
 /*gracefully exit*/
 static void quit_program(int code){
@@ -27,7 +29,7 @@ void init(){
     std::cout << "Error: " << SDL_GetError() << std::endl;
     quit_program(1);
   }else{
-    g_SDL_Window = new Window("Test", 800, 600);
+    g_SDL_Window = new Window("Test", 640, 480);
     if(g_SDL_Window){
       g_Renderer = new Renderer(g_SDL_Window->getWindow());
     }
@@ -36,6 +38,8 @@ void init(){
     std::cout << "failed to create window and renderer" << std::endl;
     quit_program(1);
   }
+  //create raycaster
+  g_Raycaster = new Raycaster(640, 480);
 
 }
 
@@ -63,6 +67,20 @@ void input(){
           std::cout << "Exiting.." << std::endl;
           g_FLAG_EXIT = true;
         }
+        if(events.key.keysym.sym == SDLK_UP){
+          g_Raycaster->move_forward();
+          break;
+        }
+        if(events.key.keysym.sym == SDLK_DOWN){
+          g_Raycaster->move_back();
+          break;
+        }if(events.key.keysym.sym == SDLK_RIGHT){
+          g_Raycaster->move_right();
+          break;
+        }if(events.key.keysym.sym == SDLK_LEFT){
+          g_Raycaster->move_left();
+          break;
+        }      
         break;
       default:
         break;
@@ -77,16 +95,17 @@ void preDraw(){
 void draw(){
 
   //pass draw calls to renderer
-  SDL_Point test1;
-  SDL_Point test2;
-  test1.x = (rand() % 700);
-  test1.y = (rand() % 600);
-  test2.x = (rand() % 700);
-  test2.y = (rand() % 600);
-  g_Renderer->addDrawEvent(test1);
-  g_Renderer->addDrawEvent(test2);
-
+  // SDL_Point test1;
+  // SDL_Point test2;
+  // test1.x = (rand() % 800);
+  // test1.y = (rand() % 600);
+  // test2.x = (rand() % 800);
+  // test2.y = (rand() % 600);
+  // g_Renderer->addDrawEvent(test1);
+  // g_Renderer->addDrawEvent(test2);
   g_Renderer->updateRenderer();
+  g_Raycaster->RunFrame(g_Renderer);
+  g_Renderer->present();
 }
 
 void loop(){

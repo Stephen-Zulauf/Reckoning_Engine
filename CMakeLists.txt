@@ -13,6 +13,7 @@ set(SOURCES
   main.cpp
   src/Renderer.cpp
   src/Window.cpp
+  src/Raycaster.cpp
 )
 
 #add excutable with sources

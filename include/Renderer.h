@@ -66,6 +66,15 @@ public:
   //add draw event
   void addDrawEvent(SDL_Point nEvent);
 
+  //clear draw points
+  void clear();
+
+	//present renderer
+	void present();
+	
+  //draw single line
+  void draw_line(SDL_Color color, SDL_Point start, SDL_Point end);
+
 	//Update renderer
 	bool updateRenderer();
 
