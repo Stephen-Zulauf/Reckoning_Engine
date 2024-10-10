@@ -29,7 +29,7 @@ void init(){
     std::cout << "Error: " << SDL_GetError() << std::endl;
     quit_program(1);
   }else{
-    g_SDL_Window = new Window("Test", 640, 480);
+    g_SDL_Window = new Window("Test", 800, 600);
     if(g_SDL_Window){
       g_Renderer = new Renderer(g_SDL_Window->getWindow());
     }
@@ -39,7 +39,7 @@ void init(){
     quit_program(1);
   }
   //create raycaster
-  g_Raycaster = new Raycaster(640, 480);
+  g_Raycaster = new Raycaster(800, 600);
 
 }
 
@@ -69,17 +69,13 @@ void input(){
         }
         if(events.key.keysym.sym == SDLK_UP){
           g_Raycaster->move_forward();
-          break;
         }
         if(events.key.keysym.sym == SDLK_DOWN){
           g_Raycaster->move_back();
-          break;
         }if(events.key.keysym.sym == SDLK_RIGHT){
           g_Raycaster->move_right();
-          break;
         }if(events.key.keysym.sym == SDLK_LEFT){
           g_Raycaster->move_left();
-          break;
         }      
         break;
       default:
