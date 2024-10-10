@@ -1,3 +1,0 @@
-/home/behoovah/projects/rayCast_theReckoning/build/CMakeFiles/Reckoning_Engine.dir
-/home/behoovah/projects/rayCast_theReckoning/build/CMakeFiles/edit_cache.dir
-/home/behoovah/projects/rayCast_theReckoning/build/CMakeFiles/rebuild_cache.dir

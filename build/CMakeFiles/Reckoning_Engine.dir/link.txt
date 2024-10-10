@@ -1,1 +1,0 @@
-/usr/bin/c++ -rdynamic CMakeFiles/Reckoning_Engine.dir/main.cpp.o CMakeFiles/Reckoning_Engine.dir/src/Renderer.cpp.o CMakeFiles/Reckoning_Engine.dir/src/Window.cpp.o CMakeFiles/Reckoning_Engine.dir/src/Raycaster.cpp.o -o Reckoning_Engine  -lSDL2
