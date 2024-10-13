@@ -1,10 +1,11 @@
-#ifndef RAYCASTER_H
-#define RAYCASTER_H
+#ifndef DOOMER_H
+#define DOOMER_H
 
 #include "../config.h"
 #include "../include/Renderer.h"
+#include <cmath>
 
-class Raycaster {
+class Doomer {
 private:
   //resolution/scaling variables
   int resolution = 1;//0=160x120, 1=360x240, 2=640x480
@@ -16,23 +17,23 @@ private:
   int SDL_win_w = (scrnWidth * pixelScale);
   int SDL_win_h = (scrnHeight* pixelScale);
 
-  // calculation variables
-  double posX = 22, posY = 12;      // x and y start postion
-  double dirX = -1, dirY = 0;       // initial direction vector
-  double planeX = 0, planeY = 0.66; // the 2d raycaster version of camera plane
+  //array look up for pi conversion to degrees
+  float cos[360];
+  float sin[360];
 
-  // time variables for tracking frames
-  double time = 0;    // time of current frame
-  double oldTime = 0; // time of previous frame
-
-  //movement variables
-  double moveSpeed = .05 * 5.0; //the constant value is in squares/second
-  double rotSpeed = .05 * 3.0; //the constant value is in radians/second  
+  //Player postion variables
+  int x, y, z; //z is up
+  int a; //player angle of rotation
+  int l; //look up or down
 
 public:
-  Raycaster(int scrnWidth, int scrnHeight) {
-    this->scrnWidth = scrnWidth;
-    this->scrnHeight = scrnHeight;
+  Doomer() {
+    //create pi conversion lookup tables
+    float pi = 3.14159265;
+    for(int i=0;i<360;i++){
+      this->cos[i] = std::cos(i/180*pi);
+      this->sin[i] = std::sin(i/180*pi);
+    }
   }
 
   // run once per game loop

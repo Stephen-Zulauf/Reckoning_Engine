@@ -13,8 +13,8 @@ set(SOURCES
   main.cpp
   src/Renderer.cpp
   src/Window.cpp
-  src/Raycaster.cpp
   src/Timer.cpp
+  src/Doomed.cpp
 )
 
 #add excutable with sources

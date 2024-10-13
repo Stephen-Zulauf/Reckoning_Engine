@@ -1,7 +1,7 @@
 #include "config.h"
 #include "include/Window.h"
 #include "include/Renderer.h"
-#include "include/Raycaster.h"
+#include "include/Doomed.h" 
 
 /*flags */
 bool g_FLAG_EXIT = false;
@@ -10,7 +10,18 @@ int g_SUCCESS;
 /*SDL Window and renderer*/
 Window* g_SDL_Window = nullptr;
 Renderer* g_Renderer = nullptr;
-Raycaster* g_Raycaster = nullptr;
+Doomer* g_doomer = nullptr;
+
+
+//resolution/scaling variables(TODO: move to doomer class?)
+int resolution = 1;//0=160x120, 1=360x240, 2=640x480
+int scrnWidth = 160;
+int scrnHeight = 120;
+int scrnWidthHalf = scrnWidth/2;
+int scrnHeightHalf = scrnHeight/2;
+int pixelScale = 4/resolution;
+int SDL_win_w = (scrnWidth * pixelScale);
+int SDL_win_h = (scrnHeight* pixelScale); 
 
 /*gracefully exit*/
 static void quit_program(int code){
@@ -29,7 +40,7 @@ void init(){
     std::cout << "Error: " << SDL_GetError() << std::endl;
     quit_program(1);
   }else{
-    g_SDL_Window = new Window("Test", 800, 600);
+    g_SDL_Window = new Window("Test", SDL_win_w, SDL_win_h);
     if(g_SDL_Window){
       g_Renderer = new Renderer(g_SDL_Window->getWindow());
     }
@@ -38,18 +49,12 @@ void init(){
     std::cout << "failed to create window and renderer" << std::endl;
     quit_program(1);
   }
-  //create raycaster
-  // g_Raycaster = new Raycaster(800, 600);
-  //create 3d engine
+  //create doomed 3d engine
+  g_doomer = new Doomer();
 
 }
 
 void pipeline(){
-  // build_vertex_shader();
-  // build_fragment_shader();
-  // link_shaders();
-  // build_buffers();
-  //load/create textures
   srand(time(NULL));
   std::cout << "Pipeline success" << std::endl;
 }
@@ -64,20 +69,24 @@ void input(){
         g_FLAG_EXIT = true;
         break;
       case SDL_KEYDOWN:
-        if(events.key.keysym.sym == SDLK_q){
+        if(events.key.keysym.sym == SDLK_c){
           std::cout << "Exiting.." << std::endl;
           g_FLAG_EXIT = true;
         }
-        if(events.key.keysym.sym == SDLK_UP){
-          g_Raycaster->move_forward();
+        if(events.key.keysym.sym == SDLK_w){
+          g_doomer->move_forward();
         }
-        if(events.key.keysym.sym == SDLK_DOWN){
-          g_Raycaster->move_back();
-        }if(events.key.keysym.sym == SDLK_RIGHT){
-          g_Raycaster->move_right();
-        }if(events.key.keysym.sym == SDLK_LEFT){
-          g_Raycaster->move_left();
-        }      
+        if(events.key.keysym.sym == SDLK_s){
+          g_doomer->move_back();
+        }if(events.key.keysym.sym == SDLK_d){
+          g_doomer->move_right();
+        }if(events.key.keysym.sym == SDLK_a){
+          g_doomer->move_left();
+        }if(events.key.keysym.sym == SDLK_q){
+          g_doomer->move_strafe_left();
+        }if(events.key.keysym.sym == SDLK_e){
+          g_doomer->move_strafe_right();
+        }     
         break;
       default:
         break;
@@ -91,20 +100,9 @@ void preDraw(){
 
 void draw(){
 
-  //pass draw calls to renderer
-  // SDL_Point test1;
-  // SDL_Point test2;
-  // test1.x = (rand() % 800);
-  // test1.y = (rand() % 600);
-  // test2.x = (rand() % 800);
-  // test2.y = (rand() % 600);
-  // g_Renderer->addDrawEvent(test1);
-  // g_Renderer->addDrawEvent(test2);
-  // g_Renderer->updateRenderer();
-  // g_Raycaster->RunFrame(g_Renderer);
-  // g_Renderer->present();
-  g_Renderer->updateRenderer();
+  g_Renderer->clear();
   g_Renderer->present();
+
 }
 
 void loop(){
