@@ -7,77 +7,94 @@
 using std::cout;
 using std::endl;
 
-//draw event struct; holds points andcolor change
+// draw event struct; holds points andcolor change
 
 class Renderer {
 private:
-	SDL_Color bgColor;
-	SDL_Color render_color;
-	SDL_Renderer* renderer = nullptr;
-	SDL_Window* window = nullptr;
-	//vector of points to be drawn each frame
-	std::vector<SDL_Point> points;
+  SDL_Color bgColor;
+  SDL_Color render_color;
+  SDL_Renderer *renderer = nullptr;
+  SDL_Window *window = nullptr;
+  // vector of points to be drawn each frame
+  std::vector<SDL_Point> points;
 
 public:
-	//default black screen
-	Renderer(SDL_Window* nWindow) {
-		this->bgColor.r = 0;
-		this->bgColor.g = 0;
-		this->bgColor.b = 0;
-		this->bgColor.a = 255;
+  // default black screen
+  Renderer(SDL_Window *nWindow) {
+    this->bgColor.r = 0;
+    this->bgColor.g = 0;
+    this->bgColor.b = 0;
+    this->bgColor.a = 255;
 
-		this->render_color.r = 255;
-		this->render_color.g = 255;
-		this->render_color.b = 255;
-		this->render_color.a = 255;
-		window = nWindow;
-		renderer = SDL_CreateRenderer(nWindow, -1, SDL_RENDERER_ACCELERATED);
-    if(!renderer){
-    		  cout << "Renderer SDL_Error at create renderer: " << SDL_GetError() << endl;
-    }	
+    this->render_color.r = 255;
+    this->render_color.g = 255;
+    this->render_color.b = 255;
+    this->render_color.a = 255;
+    window = nWindow;
+    renderer = SDL_CreateRenderer(nWindow, -1, SDL_RENDERER_ACCELERATED);
+    if (!renderer) {
+      cout << "Renderer SDL_Error at create renderer: " << SDL_GetError()
+           << endl;
+    }
   }
-	//specify background
-	Renderer(SDL_Window* nWindow, SDL_Color bgColor, SDL_Color rendColor) {
-		this->bgColor = bgColor;
-		window = nWindow;
-		renderer = SDL_CreateRenderer(nWindow, -1, SDL_RENDERER_ACCELERATED);
-		if(!renderer){
-		  cout << "Renderer SDL_Error at create renderer: " << SDL_GetError() << endl;
-		}
-	}
-	~Renderer() {
-		if (renderer) {
-			SDL_DestroyRenderer(this->renderer);
-		}
-	}
+  // specify background
+  Renderer(SDL_Window *nWindow, SDL_Color bgColor, SDL_Color rendColor) {
+    this->bgColor = bgColor;
+    window = nWindow;
+    renderer = SDL_CreateRenderer(nWindow, -1, SDL_RENDERER_ACCELERATED);
+    if (!renderer) {
+      cout << "Renderer SDL_Error at create renderer: " << SDL_GetError()
+           << endl;
+    }
+  }
+  ~Renderer() {
+    if (renderer) {
+      SDL_DestroyRenderer(this->renderer);
+    }
+  }
 
-	//check if renderer created
-	bool checkRenderer();
+  // check if renderer created
+  bool checkRenderer();
 
-	//Return renderer instance
-	SDL_Renderer* getRenderer();
+  // Return renderer instance
+  SDL_Renderer *getRenderer();
 
-	//Change background draw color
-	void SDL_set_bg_color(SDL_Color newColor);
+  // Change background draw color
+  void SDL_set_bg_color(SDL_Color newColor);
 
-  //Change renderer draw color
-	void SDL_set_render_color(SDL_Color newColor);
+  // Change renderer draw color
+  void SDL_set_render_color(SDL_Color newColor);
 
-  //add draw event
-  void addDrawEvent(SDL_Point nEvent);
+  // add draw event
+  void addDrawPoint(SDL_Point nEvent);
 
-  //clear draw points
-  void clear();
+  // clear draw points
+  void clearDrawPoints();
 
-	//present renderer
-	void present();
-	
-  //draw single line
+  // draw points buffer as lines
+  void draw_lines(SDL_Color color);
+  void draw_lines(SDL_Color color, float scaleX, float scaleY);
+
+  // draw points buffer as points
+  void draw_points(SDL_Color color);
+  void draw_points(SDL_Color color, float scaleX, float scaleY);
+
+  // draw single line
   void draw_line(SDL_Color color, SDL_Point start, SDL_Point end);
+  void draw_line(SDL_Color color, SDL_Point start, SDL_Point end, float scaleX, float scaleY);
 
-	//Update renderer
-	bool updateRenderer();
+  // draw a single point
+  void draw_point(SDL_Color color, SDL_Point point);
+  void draw_point(SDL_Color color, SDL_Point point, float scaleX, float scaleY);
 
+  // clear with the background color
+  bool clear();
+
+  // present renderer
+  void present();
+
+  // Update renderer
+  bool updateRenderer();
 };
 
 #endif

@@ -39,7 +39,8 @@ void init(){
     quit_program(1);
   }
   //create raycaster
-  g_Raycaster = new Raycaster(800, 600);
+  // g_Raycaster = new Raycaster(800, 600);
+  //create 3d engine
 
 }
 
@@ -99,8 +100,10 @@ void draw(){
   // test2.y = (rand() % 600);
   // g_Renderer->addDrawEvent(test1);
   // g_Renderer->addDrawEvent(test2);
+  // g_Renderer->updateRenderer();
+  // g_Raycaster->RunFrame(g_Renderer);
+  // g_Renderer->present();
   g_Renderer->updateRenderer();
-  g_Raycaster->RunFrame(g_Renderer);
   g_Renderer->present();
 }
 

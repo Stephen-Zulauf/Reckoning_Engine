@@ -14,6 +14,7 @@ set(SOURCES
   src/Renderer.cpp
   src/Window.cpp
   src/Raycaster.cpp
+  src/Timer.cpp
 )
 
 #add excutable with sources
